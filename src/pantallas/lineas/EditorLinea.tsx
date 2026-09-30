@@ -1,0 +1,125 @@
+import { useEditorLinea } from '../../hooks/useEditorLinea';
+import type { Linea } from '../../nucleo/tipos';
+import { formatearBs } from '../../utils/formato';
+import estilos from './EditorLinea.module.css';
+
+/** Formulario de una línea y sus rutas. Los recolectores reciben los cambios solos (paquete:actualizado). */
+export function EditorLinea({ linea, alGuardar }: { linea: Linea; alGuardar: (l: Linea) => void }) {
+  const e = useEditorLinea(linea, alGuardar);
+
+  return (
+    <section className="tarjeta pila">
+      <div className={estilos.cabecera}>
+        <label className={estilos.campo}>
+          Nombre de la línea
+          <input value={e.nombre} onChange={(ev) => e.setNombre(ev.target.value)} />
+        </label>
+        <label className={estilos.campo}>
+          Tipo
+          <select value={e.tipo} onChange={(ev) => e.setTipo(ev.target.value as Linea['tipo'])}>
+            <option value="urbana">Urbana</option>
+            <option value="suburbana">Suburbana</option>
+          </select>
+        </label>
+        <span className="suave">Código {linea.codigo}</span>
+      </div>
+
+      <div>
+        <h3 className={estilos.subtitulo}>Rutas</h3>
+        <p className="suave">
+          Sin precio fijo, la ruta cobra según el tabulador vigente
+          {e.tipo === 'urbana' ? ' (urbano mínimo)' : ' (escala suburbana por km)'}. Las rutas no se
+          borran para no perder el historial de cobros.
+        </p>
+      </div>
+
+      <div className={estilos.tabla}>
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Km</th>
+              <th>Precio fijo (Bs)</th>
+              <th className="numero">Tarifa general</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {e.rutas.map((r) => (
+              <tr key={r.codigo}>
+                <td>
+                  {r.codigo} {r.nueva && <span className="etiqueta">Nueva</span>}
+                </td>
+                <td>
+                  <input
+                    value={r.nombre}
+                    onChange={(ev) => e.cambiarRuta(r.codigo, { nombre: ev.target.value })}
+                    placeholder="Centro – …"
+                  />
+                </td>
+                <td>
+                  <input
+                    className={estilos.corto}
+                    value={r.km}
+                    onChange={(ev) => e.cambiarRuta(r.codigo, { km: ev.target.value })}
+                    inputMode="decimal"
+                  />
+                </td>
+                <td>
+                  <input
+                    className={estilos.corto}
+                    value={r.precioFijo}
+                    onChange={(ev) => e.cambiarRuta(r.codigo, { precioFijo: ev.target.value })}
+                    placeholder="Según tabulador"
+                    inputMode="decimal"
+                  />
+                </td>
+                <td className="numero">
+                  {r.tarifaCompleta != null ? (
+                    formatearBs(r.tarifaCompleta)
+                  ) : (
+                    <span className="suave">—</span>
+                  )}
+                </td>
+                <td>
+                  {r.nueva && (
+                    <button className="boton peligro" onClick={() => e.quitarNueva(r.codigo)}>
+                      Quitar
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {e.error && <div className="aviso error">{e.error}</div>}
+      {e.guardado && !e.hayCambios && (
+        <div className="aviso exito">Guardado. Los recolectores ya tienen los cambios.</div>
+      )}
+
+      <div className="fila">
+        <button className="boton secundario" onClick={e.agregarRuta}>
+          Agregar ruta
+        </button>
+        <span style={{ flex: 1 }} />
+        <button
+          className="boton secundario"
+          onClick={e.descartar}
+          disabled={!e.hayCambios || e.guardando}
+        >
+          Descartar
+        </button>
+        <button
+          className="boton"
+          onClick={() => void e.guardar()}
+          disabled={!e.hayCambios || e.guardando}
+        >
+          {e.guardando ? 'Guardando…' : 'Guardar cambios'}
+        </button>
+      </div>
+    </section>
+  );
+}

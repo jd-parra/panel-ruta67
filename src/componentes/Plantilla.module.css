@@ -1,0 +1,105 @@
+.raiz {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  min-height: 100vh;
+}
+
+.menu {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px 14px;
+  background: var(--blanco);
+  border-right: 1px solid var(--borde);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px;
+}
+
+.marca strong {
+  display: block;
+  color: var(--primario-oscuro);
+}
+
+.marca span {
+  font-size: 13px;
+  color: var(--texto-suave);
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--primario);
+  color: var(--blanco);
+  font-weight: 800;
+}
+
+.enlaces {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.enlace {
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--texto);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.enlace:hover {
+  background: var(--fondo);
+}
+
+.activo,
+.activo:hover {
+  background: var(--primario-claro);
+  color: var(--primario-oscuro);
+  font-weight: 700;
+}
+
+.pie {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 6px;
+  font-size: 14px;
+}
+
+.contenido {
+  padding: 32px 40px;
+  min-width: 0;
+}
+
+/* En pantallas angostas el menú pasa arriba. */
+@media (max-width: 800px) {
+  .raiz {
+    grid-template-columns: 1fr;
+  }
+
+  .menu {
+    position: static;
+    height: auto;
+  }
+
+  .enlaces {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .contenido {
+    padding: 20px 16px;
+  }
+}

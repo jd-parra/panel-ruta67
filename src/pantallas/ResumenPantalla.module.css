@@ -1,0 +1,43 @@
+.cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.etiqueta {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.valor {
+  display: block;
+  margin-top: 6px;
+  font-size: 26px;
+  color: var(--primario-oscuro);
+  font-variant-numeric: tabular-nums;
+}
+
+.destacada {
+  background: var(--primario);
+}
+
+.destacada .etiqueta {
+  color: var(--primario-claro);
+}
+
+.destacada .valor {
+  color: var(--blanco);
+}
+
+.dos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.titulo {
+  font-size: 16px;
+  padding: 16px 12px 8px;
+}

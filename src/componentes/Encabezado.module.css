@@ -1,0 +1,16 @@
+.encabezado {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.encabezado h1 {
+  font-size: 26px;
+}
+
+.encabezado p {
+  margin: 4px 0 0;
+}
