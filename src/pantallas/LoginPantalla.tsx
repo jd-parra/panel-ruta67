@@ -36,7 +36,7 @@ export function LoginPantalla() {
           <input
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
-            placeholder="04140000003"
+            placeholder="0414 123 4567"
             inputMode="tel"
             autoComplete="username"
             required

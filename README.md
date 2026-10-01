@@ -14,7 +14,7 @@ pnpm lint
 pnpm formato
 ```
 
-Entra con una cuenta de rol **central** (semilla: `04140000003` / `1234`). Pasajeros y recolectores usan la app.
+Entra con una cuenta de rol **central** (en la BD de pruebas, `04140000003` / `1234`; en producción, la que crea `scripts/iniciarProduccion.js` del backend). Pasajeros y recolectores usan la app.
 
 En producción el backend debe listar el origen del panel en `CORS_ORIGENES`.
 
