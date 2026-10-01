@@ -1,6 +1,6 @@
-# Pasaje — panel de la central
+# Ruta67 — panel de la central
 
-Panel web de la central (Mérida) del MVP Pasaje: React + Vite + TypeScript. Habla con el backend
+Panel web de la central (Mérida) de Ruta67 (MVP Pasaje): React + Vite + TypeScript. Habla con el backend
 [`bk-ruta67`](https://github.com/jd-parra/bk-ruta67); qué expone la API está en su `CONTRATO.md` (§6.5 central, §11 tiempo real).
 
 ## Arrancar
@@ -14,7 +14,7 @@ pnpm lint
 pnpm formato
 ```
 
-Entra con una cuenta de rol **central** (semilla: `04140000003` / `1234`). Pasajeros y recolectores usan la app.
+Entra con una cuenta de rol **central** (en la BD de pruebas, `04140000003` / `1234`; en producción, la que crea `scripts/iniciarProduccion.js` del backend). Pasajeros y recolectores usan la app.
 
 En producción el backend debe listar el origen del panel en `CORS_ORIGENES`.
 

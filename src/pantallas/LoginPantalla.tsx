@@ -27,8 +27,8 @@ export function LoginPantalla() {
   return (
     <div className={estilos.fondo}>
       <form className={`tarjeta ${estilos.caja}`} onSubmit={(e) => void enviar(e)}>
-        <span className={estilos.logo}>P</span>
-        <h1>Pasaje · Central</h1>
+        <img src="/logo.png" alt="Ruta67" className={estilos.logo} />
+        <h1>Ruta67 · Central</h1>
         <p className="suave">Panel de la central de transporte</p>
 
         <label className={estilos.campo}>
@@ -36,7 +36,7 @@ export function LoginPantalla() {
           <input
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
-            placeholder="04140000003"
+            placeholder="0414 123 4567"
             inputMode="tel"
             autoComplete="username"
             required
