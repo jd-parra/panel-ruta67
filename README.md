@@ -1,6 +1,6 @@
-# Pasaje — panel de la central
+# Ruta67 — panel de la central
 
-Panel web de la central (Mérida) del MVP Pasaje: React + Vite + TypeScript. Habla con el backend
+Panel web de la central (Mérida) de Ruta67 (MVP Pasaje): React + Vite + TypeScript. Habla con el backend
 [`bk-ruta67`](https://github.com/jd-parra/bk-ruta67); qué expone la API está en su `CONTRATO.md` (§6.5 central, §11 tiempo real).
 
 ## Arrancar

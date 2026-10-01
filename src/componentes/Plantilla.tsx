@@ -10,9 +10,9 @@ export function Plantilla() {
     <div className={estilos.raiz}>
       <aside className={estilos.menu}>
         <div className={estilos.marca}>
-          <span className={estilos.logo}>P</span>
+          <img src="/logo.png" alt="" className={estilos.logo} />
           <div>
-            <strong>Pasaje</strong>
+            <strong>Ruta67</strong>
             <span>Central</span>
           </div>
         </div>
