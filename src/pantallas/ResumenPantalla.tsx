@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { EstadoCarga } from '../componentes/Estados';
 import { Encabezado } from '../componentes/Encabezado';
+import { Selector } from '../componentes/Selector';
 import { useCarga } from '../hooks/useCarga';
 import { obtenerResumen } from '../nucleo/api/central';
 import type { Categoria } from '../nucleo/tipos';
@@ -35,13 +36,13 @@ export function ResumenPantalla() {
         subtitulo="Lo cobrado en las unidades y lo recargado por los pasajeros"
         acciones={
           <>
-            <select value={periodo} onChange={(e) => setPeriodo(e.target.value as typeof periodo)}>
-              {PERIODOS.map((p) => (
-                <option key={p.valor} value={p.valor}>
-                  {p.texto}
-                </option>
-              ))}
-            </select>
+            <Selector
+              etiqueta="Periodo"
+              icono="calendario"
+              opciones={PERIODOS.map((p) => ({ valor: p.valor, texto: p.texto }))}
+              valor={periodo}
+              alCambiar={setPeriodo}
+            />
             <button className="boton secundario" onClick={() => void recargar()}>
               Actualizar
             </button>

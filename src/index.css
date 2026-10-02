@@ -89,6 +89,15 @@ select {
   min-width: 0;
 }
 
+input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+label input {
+  font-weight: 400;
+}
+
 input:focus,
 select:focus {
   outline: 2px solid var(--acento);

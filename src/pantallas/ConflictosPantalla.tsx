@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { EstadoCarga } from '../componentes/Estados';
+import { EstadoCarga, EstadoVacio } from '../componentes/Estados';
 import { Encabezado } from '../componentes/Encabezado';
 import { useCarga } from '../hooks/useCarga';
 import { cambiarBloqueo, listarConflictos } from '../nucleo/api/central';
@@ -55,7 +55,32 @@ export function ConflictosPantalla() {
         cargando={cargando}
         error={error}
         vacio={!datos?.length}
-        mensajeVacio="No hay conflictos pendientes."
+        contenidoVacio={
+          todos ? (
+            <EstadoVacio icono="escudo" titulo="Nunca ha habido un conflicto">
+              <p>Nadie ha intentado pagar dos veces con el mismo boleto.</p>
+            </EstadoVacio>
+          ) : (
+            <EstadoVacio icono="escudo" titulo="Todo en orden">
+              <p>
+                Aquí aparece cuando alguien intenta{' '}
+                <strong>pagar dos veces con el mismo boleto</strong> en autobuses distintos (por
+                ejemplo, copiándolo). Es una posible trampa.
+              </p>
+              <ol>
+                <li>
+                  El sistema acepta el primer pago y <strong>bloquea la cuenta</strong> de esa
+                  persona: no podrá volver a pagar hasta que la revises.
+                </li>
+                <li>Aquí verás los dos usos: en qué autobús, quién cobró, cuánto y a qué hora.</li>
+                <li>
+                  Si fue un error, toca <strong>Desbloquear</strong> y la persona podrá volver a
+                  pagar. Si fue trampa, déjala bloqueada.
+                </li>
+              </ol>
+            </EstadoVacio>
+          )
+        }
         onReintentar={() => void recargar()}
       >
         <section className="tarjeta sin-relleno">

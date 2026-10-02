@@ -1,0 +1,171 @@
+.vigente {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.fuente {
+  font-size: 20px;
+  margin: 8px 0 2px;
+}
+
+.cabecera p {
+  margin: 0;
+}
+
+/* Tres bloques de cifras */
+.cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.cifra {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: var(--radio);
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+}
+
+.destacada {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: var(--blanco);
+}
+
+.cifraTitulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.destacada .cifraTitulo,
+.destacada .cifraDetalle {
+  color: var(--primario-claro);
+}
+
+.cifraValor {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--primario-oscuro);
+  font-variant-numeric: tabular-nums;
+}
+
+.destacada .cifraValor {
+  color: var(--blanco);
+}
+
+.cifraDetalle {
+  font-size: 13px;
+  color: var(--texto-suave);
+}
+
+.escala {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.escala li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--borde);
+}
+
+.escala li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.escala strong {
+  color: var(--primario-oscuro);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tabla de precios por categoría */
+.matriz {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subtitulo {
+  font-size: 16px;
+}
+
+.tabla {
+  overflow-x: auto;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+}
+
+.tabla th {
+  background: var(--fondo);
+}
+
+.tabla td {
+  font-variant-numeric: tabular-nums;
+}
+
+.domingo {
+  display: block;
+  font-size: 12px;
+  color: var(--aviso);
+}
+
+.nota {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Próximo tabulador */
+.proximo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--aviso-claro);
+  box-shadow: none;
+  border: 1px solid #fcd34d;
+}
+
+.etiquetaProximo {
+  background: var(--aviso);
+  color: var(--blanco);
+  flex-shrink: 0;
+}
+
+.proximoTexto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #78350f;
+}
+
+/* Anteriores (plegable) */
+.historial summary {
+  padding: 16px 20px;
+  font-weight: 600;
+  color: var(--primario-oscuro);
+  cursor: pointer;
+}
+
+.historial[open] summary {
+  border-bottom: 1px solid var(--borde);
+}
