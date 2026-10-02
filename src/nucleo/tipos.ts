@@ -40,6 +40,14 @@ export interface Tramo {
   frecuencia?: number;
   /** Recorrido en el mapa: puntos [lat, lng] en orden. null al guardar = borrarlo. */
   trazo?: [number, number][] | null;
+  /** Paradas en orden de recorrido (aparte del trazo, que solo da la forma). */
+  paradas?: Parada[] | null;
+}
+
+export interface Parada {
+  nombre: string;
+  lat: number;
+  lng: number;
 }
 
 export interface Linea {

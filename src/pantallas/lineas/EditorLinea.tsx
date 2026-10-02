@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { EditorTrazo } from '../../componentes/EditorTrazo';
 import { useEditorLinea } from '../../hooks/useEditorLinea';
 import type { Linea } from '../../nucleo/tipos';
 import { formatearBs } from '../../utils/formato';
 import estilos from './EditorLinea.module.css';
+import { MapaRuta } from './MapaRuta';
 
 /** Formulario de una línea y sus rutas. Los recolectores reciben los cambios solos (paquete:actualizado). */
 export function EditorLinea({ linea, alGuardar }: { linea: Linea; alGuardar: (l: Linea) => void }) {
@@ -53,7 +53,7 @@ export function EditorLinea({ linea, alGuardar }: { linea: Linea; alGuardar: (l:
               <th>Km</th>
               <th>Precio fijo (Bs)</th>
               <th className="numero">Tarifa general</th>
-              <th>Recorrido</th>
+              <th>Mapa</th>
               <th />
             </tr>
           </thead>
@@ -99,7 +99,9 @@ export function EditorLinea({ linea, alGuardar }: { linea: Linea; alGuardar: (l:
                     className={`boton ${trazando === r.codigo ? '' : 'secundario'}`}
                     onClick={() => setTrazando(trazando === r.codigo ? null : r.codigo)}
                   >
-                    {r.trazo.length ? `Editar (${r.trazo.length} puntos)` : 'Trazar en el mapa'}
+                    {r.trazo.length || r.paradas.length
+                      ? `Editar mapa (${r.paradas.length} paradas)`
+                      : 'Trazar en el mapa'}
                   </button>
                 </td>
                 <td>
@@ -116,46 +118,13 @@ export function EditorLinea({ linea, alGuardar }: { linea: Linea; alGuardar: (l:
       </div>
 
       {rutaTrazo && (
-        <div className="pila">
-          <div className="fila">
-            <div>
-              <h3 className={estilos.subtitulo}>
-                Recorrido de {rutaTrazo.nombre || `la ruta ${rutaTrazo.codigo}`}
-              </h3>
-              <p className="suave">
-                Haz clic en el mapa para marcar el camino en orden, desde el inicio. Arrastra un
-                punto para moverlo y haz clic derecho para quitarlo. Las otras rutas de la línea se
-                ven en gris.
-              </p>
-            </div>
-            <span style={{ flex: 1 }} />
-            <button
-              className="boton secundario"
-              onClick={() =>
-                e.cambiarRuta(rutaTrazo.codigo, { trazo: rutaTrazo.trazo.slice(0, -1) })
-              }
-              disabled={!rutaTrazo.trazo.length}
-            >
-              Deshacer punto
-            </button>
-            <button
-              className="boton peligro"
-              onClick={() => e.cambiarRuta(rutaTrazo.codigo, { trazo: [] })}
-              disabled={!rutaTrazo.trazo.length}
-            >
-              Borrar recorrido
-            </button>
-            <button className="boton secundario" onClick={() => setTrazando(null)}>
-              Cerrar mapa
-            </button>
-          </div>
-          <EditorTrazo
-            key={`${linea.id}-${rutaTrazo.codigo}`}
-            trazo={rutaTrazo.trazo}
-            otros={otros}
-            onChange={(trazo) => e.cambiarRuta(rutaTrazo.codigo, { trazo })}
-          />
-        </div>
+        <MapaRuta
+          key={`${linea.id}-${rutaTrazo.codigo}`}
+          ruta={rutaTrazo}
+          otros={otros}
+          onCambiar={(cambios) => e.cambiarRuta(rutaTrazo.codigo, cambios)}
+          onCerrar={() => setTrazando(null)}
+        />
       )}
 
       {e.error && <div className="aviso error">{e.error}</div>}

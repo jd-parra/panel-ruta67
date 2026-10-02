@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { CENTRO_MERIDA } from '../nucleo/config';
-import type { UnidadMapa } from '../nucleo/tipos';
-import { COLOR_TRAZO, colorDeLinea, haceCuanto } from '../utils/mapa';
+import type { Parada, UnidadMapa } from '../nucleo/tipos';
+import { COLOR_TRAZO, colorDeLinea, haceCuanto, iconoParada } from '../utils/mapa';
 import './MapaLeaflet.css';
 
 const BUS =
@@ -44,6 +44,7 @@ export interface TrazoRuta {
   lineaNombre: string;
   tramoNombre: string;
   trazo: [number, number][];
+  paradas: Parada[];
 }
 
 /** Mapa de OpenStreetMap con un autobús por unidad en ruta y el recorrido de cada ruta en morado. */
@@ -125,6 +126,14 @@ export function MapaLeaflet({
         .addTo(g);
       linea.on('mouseover', () => linea.setStyle({ weight: 8, opacity: 1 }));
       linea.on('mouseout', () => linea.setStyle({ weight: 5, opacity: 0.75 }));
+      t.paradas.forEach((p, i) =>
+        L.marker([p.lat, p.lng], { icon: iconoParada(i + 1) })
+          .bindTooltip(`<b>${esc(p.nombre)}</b><br>${esc(t.lineaNombre)} · ${esc(t.tramoNombre)}`, {
+            direction: 'top',
+            offset: [0, -14],
+          })
+          .addTo(g),
+      );
     }
   }, [trazos]);
 

@@ -52,18 +52,47 @@
 }
 
 .trazo-vertice {
-  width: 22px;
-  height: 22px;
-  transform: translate(-11px, -11px);
+  width: 12px;
+  height: 12px;
+  transform: translate(-6px, -6px);
   border-radius: 50%;
   background: #fff;
   border: 3px solid #7c3aed;
+  cursor: grab;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.trazo-vertice.extremo {
+  width: 16px;
+  height: 16px;
+  transform: translate(-8px, -8px);
+  background: #7c3aed;
+  border-color: #fff;
+}
+
+/* Punto a mitad de un tramo: se arrastra para curvar el recorrido. */
+.trazo-medio {
+  width: 10px;
+  height: 10px;
+  transform: translate(-5px, -5px);
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  cursor: grab;
+}
+
+.mapa-parada {
+  width: 24px;
+  height: 24px;
+  transform: translate(-12px, -12px);
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #4c1d95;
   color: #4c1d95;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: grab;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }

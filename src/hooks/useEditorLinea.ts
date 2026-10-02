@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { actualizarLinea } from '../nucleo/api/central';
 import { mensajeDeError } from '../nucleo/api/cliente';
-import type { Linea } from '../nucleo/tipos';
+import type { Linea, Parada } from '../nucleo/tipos';
 import { bsACentimos, centimosABs } from '../utils/formato';
 
 /** Fila editable: los números van como texto mientras se escriben. */
@@ -15,6 +15,7 @@ export interface RutaEditable {
   tarifaCompleta?: number;
   /** Recorrido en el mapa, [lat, lng] en orden; vacío = sin trazo. */
   trazo: [number, number][];
+  paradas: Parada[];
 }
 
 const aEditable = (l: Linea): RutaEditable[] =>
@@ -29,6 +30,7 @@ const aEditable = (l: Linea): RutaEditable[] =>
       nueva: false,
       tarifaCompleta: t.tarifaCompleta,
       trazo: t.trazo ?? [],
+      paradas: t.paradas ?? [],
     }));
 
 const aNumero = (texto: string) => Number(texto.trim().replace(',', '.'));
@@ -41,6 +43,8 @@ function problemaDe(r: RutaEditable): string | null {
   if (r.precioFijo.trim() && bsACentimos(r.precioFijo) === null)
     return `Ruta ${r.codigo}: precio fijo inválido`;
   if (r.trazo.length === 1) return `Ruta ${r.codigo}: el recorrido necesita al menos dos puntos`;
+  if (r.paradas.some((p) => !p.nombre.trim()))
+    return `Ruta ${r.codigo}: cada parada necesita un nombre`;
   return null;
 }
 
@@ -74,7 +78,7 @@ export function useEditorLinea(linea: Linea, alGuardar: (l: Linea) => void) {
     const codigo = Math.max(0, ...rutas.map((r) => r.codigo)) + 1;
     setRutas((rs) => [
       ...rs,
-      { codigo, nombre: '', km: '', precioFijo: '', nueva: true, trazo: [] },
+      { codigo, nombre: '', km: '', precioFijo: '', nueva: true, trazo: [], paradas: [] },
     ]);
   };
 
@@ -106,6 +110,9 @@ export function useEditorLinea(linea: Linea, alGuardar: (l: Linea) => void) {
           km: aNumero(r.km),
           tarifaManual: r.precioFijo.trim() ? bsACentimos(r.precioFijo) : null,
           trazo: r.trazo.length >= 2 ? r.trazo : null,
+          paradas: r.paradas.length
+            ? r.paradas.map((p) => ({ ...p, nombre: p.nombre.trim() }))
+            : null,
         })),
       });
       setGuardado(true);
