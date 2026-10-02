@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { mensajeDeError } from '../nucleo/api/cliente';
 import { useSesion } from '../nucleo/auth/SesionContext';
+import { FondoRutas } from '../componentes/FondoRutas';
 import estilos from './LoginPantalla.module.css';
 
 /** Login de la central con teléfono y clave (POST /auth/login). */
@@ -25,11 +26,14 @@ export function LoginPantalla() {
   };
 
   return (
-    <div className={estilos.fondo}>
+    <div className={estilos.pantalla}>
+      <FondoRutas />
       <form className={`tarjeta ${estilos.caja}`} onSubmit={(e) => void enviar(e)}>
-        <img src="/logo.png" alt="Ruta67" className={estilos.logo} />
-        <h1>Ruta67 · Central</h1>
-        <p className="suave">Panel de la central de transporte</p>
+        <div className={estilos.marca}>
+          <img src="/ruta67-icono-animado.svg" alt="Ruta67" className={estilos.logo} />
+          <h1>Ruta67 · Central</h1>
+          <p className="suave">Panel de la central de transporte de Mérida</p>
+        </div>
 
         <label className={estilos.campo}>
           Teléfono

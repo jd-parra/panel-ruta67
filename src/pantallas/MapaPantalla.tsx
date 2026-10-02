@@ -1,9 +1,12 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Encabezado } from '../componentes/Encabezado';
+import { Icono } from '../componentes/Icono';
 import { MapaLeaflet, type TrazoRuta } from '../componentes/MapaLeaflet';
 import { useCarga } from '../hooks/useCarga';
 import { useUnidadesMapa } from '../hooks/useUnidadesMapa';
 import { listarLineas } from '../nucleo/api/central';
+import estilos from './MapaPantalla.module.css';
 
 /** Unidades en ruta en tiempo real (recolectores con «En turno» activo) y el recorrido de cada ruta. */
 export function MapaPantalla() {
@@ -43,17 +46,77 @@ export function MapaPantalla() {
           {error}
         </div>
       )}
-      {unidades?.length === 0 && (
-        <div className="aviso" style={{ marginBottom: 16 }}>
-          No hay unidades en ruta. Aparecerán cuando un recolector active «En turno» en la app.
-        </div>
-      )}
-      {lineas && !trazos.length && (
-        <div className="aviso" style={{ marginBottom: 16 }}>
-          Ninguna ruta tiene recorrido todavía. Márcalo en Líneas y rutas → «Trazar en el mapa».
-        </div>
-      )}
-      <MapaLeaflet unidades={unidades ?? []} trazos={trazos} />
+      <div className={estilos.marco}>
+        <MapaLeaflet unidades={unidades ?? []} trazos={trazos} />
+        <EstadoMapa
+          sinUnidades={unidades?.length === 0}
+          sinRecorridos={!!lineas && !trazos.length}
+        />
+      </div>
     </>
+  );
+}
+
+/**
+ * Tarjeta flotante sobre el mapa que explica por qué está vacío.
+ * Se puede cerrar; un botón pequeño la vuelve a mostrar.
+ */
+function EstadoMapa({
+  sinUnidades,
+  sinRecorridos,
+}: {
+  sinUnidades: boolean;
+  sinRecorridos: boolean;
+}) {
+  const [visible, setVisible] = useState(true);
+  if (!sinUnidades && !sinRecorridos) return null;
+
+  if (!visible) {
+    return (
+      <button className={estilos.mostrar} onClick={() => setVisible(true)}>
+        <Icono nombre="bus" tamano={16} />
+        Ver avisos
+      </button>
+    );
+  }
+
+  return (
+    <aside className={estilos.estado} aria-label="Avisos del mapa">
+      <button
+        className={estilos.cerrar}
+        onClick={() => setVisible(false)}
+        aria-label="Ocultar avisos"
+        title="Ocultar"
+      >
+        <Icono nombre="cerrar" tamano={16} />
+      </button>
+
+      {sinUnidades && (
+        <div className={estilos.fila}>
+          <span className={estilos.icono}>
+            <Icono nombre="bus" />
+          </span>
+          <span className={estilos.textos}>
+            <strong>Ningún autobús en ruta</strong>
+            Aparecen aquí cuando un recolector activa «En turno» en la app.
+          </span>
+        </div>
+      )}
+
+      {sinRecorridos && (
+        <div className={estilos.fila}>
+          <span className={estilos.icono}>
+            <Icono nombre="ruta" />
+          </span>
+          <span className={estilos.textos}>
+            <strong>Sin recorridos marcados</strong>
+            Dibuja por dónde pasa cada ruta para verla en el mapa.
+            <Link to="/lineas" className={estilos.enlace}>
+              Marcar recorridos <Icono nombre="derecha" tamano={14} />
+            </Link>
+          </span>
+        </div>
+      )}
+    </aside>
   );
 }

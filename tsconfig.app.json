@@ -22,5 +22,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  // Ruta67Logo.tsx es el logo para la app (React Native): se guarda aquí solo como referencia.
+  "exclude": ["src/assets/marca/Ruta67Logo.tsx"]
 }
