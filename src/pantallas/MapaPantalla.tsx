@@ -13,12 +13,13 @@ export function MapaPantalla() {
     () =>
       (lineas ?? []).flatMap((l) =>
         l.tramos
-          .filter((t) => (t.trazo?.length ?? 0) > 1)
+          .filter((t) => (t.trazo?.length ?? 0) > 1 || (t.paradas?.length ?? 0) > 0)
           .map((t) => ({
             clave: `${l.id}-${t.codigo}`,
             lineaNombre: l.nombre,
             tramoNombre: t.nombre,
-            trazo: t.trazo!,
+            trazo: t.trazo ?? [],
+            paradas: t.paradas ?? [],
           })),
       ),
     [lineas],

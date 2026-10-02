@@ -34,13 +34,14 @@ export const actualizarLinea = (
     metodo: 'PUT',
     cuerpo: {
       ...cambios,
-      // Sin `trazo` el backend conserva el que tenía; null lo borra.
-      tramos: cambios.tramos?.map(({ codigo, nombre, km, tarifaManual, trazo }) => ({
+      // Sin `trazo` o `paradas` el backend conserva lo que tenía; null lo borra.
+      tramos: cambios.tramos?.map(({ codigo, nombre, km, tarifaManual, trazo, paradas }) => ({
         codigo,
         nombre,
         km,
         tarifaManual: tarifaManual ?? null,
         ...(trazo !== undefined && { trazo }),
+        ...(paradas !== undefined && { paradas }),
       })),
     },
   });
