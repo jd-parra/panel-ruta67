@@ -97,7 +97,7 @@ export function LineasPantalla() {
               alCancelar={() => setCreando(false)}
             />
           ) : (
-            elegida && <EditorLinea linea={elegida} alGuardar={reemplazar} />
+            elegida && <EditorLinea key={elegida.id} linea={elegida} alGuardar={reemplazar} />
           )}
         </div>
       </EstadoCarga>

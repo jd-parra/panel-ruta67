@@ -13,6 +13,7 @@ const rutaVacia = (codigo: number): RutaEditable => ({
   km: '',
   precioFijo: '',
   nueva: true,
+  trazo: [],
 });
 
 /** Código sugerido: el siguiente al mayor que existe (o 1 si no hay líneas). */

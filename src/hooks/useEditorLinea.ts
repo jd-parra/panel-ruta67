@@ -13,6 +13,8 @@ export interface RutaEditable {
   precioFijo: string;
   nueva: boolean;
   tarifaCompleta?: number;
+  /** Recorrido en el mapa, [lat, lng] en orden; vacío = sin trazo. */
+  trazo: [number, number][];
 }
 
 const aEditable = (l: Linea): RutaEditable[] =>
@@ -26,6 +28,7 @@ const aEditable = (l: Linea): RutaEditable[] =>
       precioFijo: t.tarifaManual != null ? centimosABs(t.tarifaManual) : '',
       nueva: false,
       tarifaCompleta: t.tarifaCompleta,
+      trazo: t.trazo ?? [],
     }));
 
 export const aNumero = (texto: string) => Number(texto.trim().replace(',', '.'));
@@ -37,6 +40,7 @@ export function problemaDe(r: RutaEditable): string | null {
   if (!Number.isFinite(km) || km <= 0) return `Ruta ${r.codigo}: los km deben ser mayores que 0`;
   if (r.precioFijo.trim() && bsACentimos(r.precioFijo) === null)
     return `Ruta ${r.codigo}: precio fijo inválido`;
+  if (r.trazo.length === 1) return `Ruta ${r.codigo}: el recorrido necesita al menos dos puntos`;
   return null;
 }
 
@@ -68,7 +72,10 @@ export function useEditorLinea(linea: Linea, alGuardar: (l: Linea) => void) {
   const agregarRuta = () => {
     setGuardado(false);
     const codigo = Math.max(0, ...rutas.map((r) => r.codigo)) + 1;
-    setRutas((rs) => [...rs, { codigo, nombre: '', km: '', precioFijo: '', nueva: true }]);
+    setRutas((rs) => [
+      ...rs,
+      { codigo, nombre: '', km: '', precioFijo: '', nueva: true, trazo: [] },
+    ]);
   };
 
   const quitarNueva = (codigo: number) =>
@@ -98,6 +105,7 @@ export function useEditorLinea(linea: Linea, alGuardar: (l: Linea) => void) {
           nombre: r.nombre.trim(),
           km: aNumero(r.km),
           tarifaManual: r.precioFijo.trim() ? bsACentimos(r.precioFijo) : null,
+          trazo: r.trazo.length >= 2 ? r.trazo : null,
         })),
       });
       setGuardado(true);

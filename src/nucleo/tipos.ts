@@ -38,6 +38,8 @@ export interface Tramo {
   /** Precio fijo que reemplaza al del tabulador. */
   tarifaManual?: number | null;
   frecuencia?: number;
+  /** Recorrido en el mapa: puntos [lat, lng] en orden. null al guardar = borrarlo. */
+  trazo?: [number, number][] | null;
 }
 
 export interface Linea {
