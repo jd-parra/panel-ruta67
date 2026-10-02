@@ -3,7 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { CENTRO_MERIDA } from '../nucleo/config';
 import type { UnidadMapa } from '../nucleo/tipos';
-import { colorDeLinea, haceCuanto } from '../utils/mapa';
+import { COLOR_TRAZO, colorDeLinea, haceCuanto } from '../utils/mapa';
 import './MapaLeaflet.css';
 
 const BUS =
@@ -38,10 +38,25 @@ function mover(m: L.Marker, destino: L.LatLngExpression) {
   requestAnimationFrame(paso);
 }
 
-/** Mapa de OpenStreetMap con un autobús por unidad en ruta. */
-export function MapaLeaflet({ unidades }: { unidades: UnidadMapa[] }) {
+/** Recorrido de una ruta para dibujar en morado. */
+export interface TrazoRuta {
+  clave: string;
+  lineaNombre: string;
+  tramoNombre: string;
+  trazo: [number, number][];
+}
+
+/** Mapa de OpenStreetMap con un autobús por unidad en ruta y el recorrido de cada ruta en morado. */
+export function MapaLeaflet({
+  unidades,
+  trazos = [],
+}: {
+  unidades: UnidadMapa[];
+  trazos?: TrazoRuta[];
+}) {
   const contenedor = useRef<HTMLDivElement>(null);
   const mapa = useRef<L.Map | null>(null);
+  const capaTrazos = useRef<L.LayerGroup | null>(null);
   const marcadores = useRef(new Map<number, { marcador: L.Marker; unidad: UnidadMapa }>());
   const ajustado = useRef(false);
 
@@ -52,6 +67,8 @@ export function MapaLeaflet({ unidades }: { unidades: UnidadMapa[] }) {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap',
     }).addTo(m);
+    // Los recorridos van debajo de los autobuses.
+    capaTrazos.current = L.layerGroup().addTo(m);
     mapa.current = m;
     const registrados = marcadores.current;
     return () => {
@@ -97,6 +114,19 @@ export function MapaLeaflet({ unidades }: { unidades: UnidadMapa[] }) {
       );
     }
   }, [unidades]);
+
+  useEffect(() => {
+    const g = capaTrazos.current;
+    if (!g) return;
+    g.clearLayers();
+    for (const t of trazos) {
+      const linea = L.polyline(t.trazo, { color: COLOR_TRAZO, weight: 5, opacity: 0.75 })
+        .bindTooltip(`<b>${esc(t.lineaNombre)}</b><br>${esc(t.tramoNombre)}`, { sticky: true })
+        .addTo(g);
+      linea.on('mouseover', () => linea.setStyle({ weight: 8, opacity: 1 }));
+      linea.on('mouseout', () => linea.setStyle({ weight: 5, opacity: 0.75 }));
+    }
+  }, [trazos]);
 
   return <div ref={contenedor} className="mapa-contenedor" />;
 }

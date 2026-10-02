@@ -44,7 +44,7 @@ export function LineasPantalla() {
               </button>
             ))}
           </nav>
-          {elegida && <EditorLinea linea={elegida} alGuardar={reemplazar} />}
+          {elegida && <EditorLinea key={elegida.id} linea={elegida} alGuardar={reemplazar} />}
         </div>
       </EstadoCarga>
     </>
