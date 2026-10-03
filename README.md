@@ -20,17 +20,17 @@ En producción el backend debe listar el origen del panel en `CORS_ORIGENES`.
 
 ## Secciones (contrato §14)
 
-| Sección               | Qué hace                                                                            | Endpoints                                                                   |
-| --------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| Resumen               | Recaudado, cobros, pasajeros y recargas de hoy / 7 / 30 días, por línea y categoría | `GET /central/resumen`                                                      |
-| Mapa                  | Unidades en ruta en tiempo real                                                     | `GET /mapa/unidades` + `unidad:ubicacion`                                   |
-| Líneas y rutas        | Editar nombre, tipo, rutas (km) y precio fijo; agregar rutas                        | `GET/PUT /central/lineas`                                                   |
-| Tabulador             | Tabuladores vigente, próximo y anteriores                                           | `GET /central/tabuladores`                                                  |
-| Categorías pendientes | Aprobar o rechazar estudiantes y exonerados                                         | `GET /central/categorias/pendientes`, `PUT /central/usuarios/:id/categoria` |
-| Conflictos            | Boletos cobrados dos veces; desbloquear la cuenta                                   | `GET /central/conflictos`, `PUT /central/usuarios/:id/bloqueo`              |
-| Unidades              | Unidades, línea y recolector                                                        | `GET /central/unidades`                                                     |
+| Sección               | Qué hace                                                                                | Endpoints                                                                   |
+| --------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Resumen               | Recaudado, cobros, pasajeros y recargas de hoy / 7 / 30 días, por línea y categoría     | `GET /central/resumen`                                                      |
+| Mapa                  | Unidades en ruta en tiempo real                                                         | `GET /mapa/unidades` + `unidad:ubicacion`                                   |
+| Líneas y rutas        | Crear líneas; editar nombre, tipo, rutas (km) y precio fijo; agregar rutas              | `GET/POST/PUT /central/lineas`                                              |
+| Tabulador             | Vigente, próximo y anteriores; precios por categoría; publicar uno nuevo (con revisión) | `GET/POST /central/tabuladores`                                             |
+| Categorías pendientes | Aprobar o rechazar estudiantes y exonerados                                             | `GET /central/categorias/pendientes`, `PUT /central/usuarios/:id/categoria` |
+| Conflictos            | Boletos cobrados dos veces; desbloquear la cuenta                                       | `GET /central/conflictos`, `PUT /central/usuarios/:id/bloqueo`              |
+| Unidades              | Crear y editar unidades; crear la cuenta del recolector o asignar uno existente         | `GET/POST/PUT /central/unidades`, `GET /central/recolectores`               |
 
-Pendiente: crear tabulador, crear líneas y crear unidades/recolectores (los endpoints ya existen).
+Componentes compartidos: `Selector` (lista desplegable), `EstadoVacio` (pantalla sin datos explicada en lenguaje sencillo), `Icono` (SVG de línea) y `Formulario.module.css` (estilos de los formularios).
 
 ## Convenciones
 

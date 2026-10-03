@@ -1,0 +1,75 @@
+.vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 48px 24px;
+}
+
+.icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primario-claro);
+  color: var(--primario);
+}
+
+.titulo {
+  font-size: 18px;
+}
+
+.texto {
+  max-width: 560px;
+  color: var(--texto-suave);
+  line-height: 1.55;
+}
+
+.texto p {
+  margin: 0 0 10px;
+}
+
+.texto p:last-child {
+  margin-bottom: 0;
+}
+
+/* Pasos numerados: "1. Pasa esto… 2. Tú haces esto…" */
+.texto ol {
+  margin: 12px auto 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: paso;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.texto li {
+  counter-increment: paso;
+  position: relative;
+  padding: 12px 14px 12px 50px;
+  border-radius: var(--radio);
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+.texto li::before {
+  content: counter(paso);
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--primario);
+  color: var(--blanco);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

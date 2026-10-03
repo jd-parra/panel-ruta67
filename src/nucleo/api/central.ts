@@ -1,6 +1,8 @@
 import type {
   Conflicto,
   Linea,
+  Recolector,
+  RecolectorNuevo,
   Resumen,
   Tabulador,
   Tramo,
@@ -46,7 +48,22 @@ export const actualizarLinea = (
     },
   });
 
+/** Crea una línea con sus rutas. Falla con TRAMO_INVALIDO si una ruta queda sin tarifa. */
+export const crearLinea = (datos: {
+  codigo: number;
+  nombre: string;
+  tipo: Linea['tipo'];
+  tramos: Pick<Tramo, 'codigo' | 'nombre' | 'km' | 'tarifaManual'>[];
+}) => llamar<Linea>('/central/lineas', { metodo: 'POST', cuerpo: datos });
+
 export const listarTabuladores = () => llamar<Tabulador[]>('/central/tabuladores');
+
+/**
+ * Publica un tabulador (gaceta). No se puede borrar ni editar después, y avisa a todos los
+ * pasajeros (CAMBIO_TARIFA). Falla con TRAMO_INVALIDO si alguna ruta queda fuera de la escala.
+ */
+export const crearTabulador = (datos: Omit<Tabulador, 'id'>) =>
+  llamar<Tabulador>('/central/tabuladores', { metodo: 'POST', cuerpo: datos });
 
 export const listarCategoriasPendientes = () => llamar<Usuario[]>('/central/categorias/pendientes');
 
@@ -66,5 +83,23 @@ export const cambiarBloqueo = (usuarioId: string, bloqueado: boolean) =>
   });
 
 export const listarUnidades = () => llamar<Unidad[]>('/central/unidades');
+
+/**
+ * El recolector puede ser uno nuevo (`recolector`: se le crea la cuenta), uno existente
+ * (`recolectorId`) o ninguno (`recolectorId: null`).
+ */
+type AsignacionRecolector = { recolector: RecolectorNuevo } | { recolectorId: string | null };
+
+export const crearUnidad = (
+  datos: { codigo: number; placa: string; lineaCodigo: number } & Partial<AsignacionRecolector>,
+) => llamar<Unidad>('/central/unidades', { metodo: 'POST', cuerpo: datos });
+
+/** Solo se pueden cambiar la línea y el recolector; el código y la placa quedan fijos. */
+export const actualizarUnidad = (
+  id: string,
+  cambios: { lineaCodigo?: number } & Partial<AsignacionRecolector>,
+) => llamar<Unidad>(`/central/unidades/${id}`, { metodo: 'PUT', cuerpo: cambios });
+
+export const listarRecolectores = () => llamar<Recolector[]>('/central/recolectores');
 
 export const listarUnidadesMapa = () => llamar<UnidadMapa[]>('/mapa/unidades');

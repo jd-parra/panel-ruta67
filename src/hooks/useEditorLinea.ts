@@ -33,10 +33,10 @@ const aEditable = (l: Linea): RutaEditable[] =>
       paradas: t.paradas ?? [],
     }));
 
-const aNumero = (texto: string) => Number(texto.trim().replace(',', '.'));
+export const aNumero = (texto: string) => Number(texto.trim().replace(',', '.'));
 
 /** Primer problema de la fila, o null si está bien. */
-function problemaDe(r: RutaEditable): string | null {
+export function problemaDe(r: RutaEditable): string | null {
   if (r.nombre.trim().length < 2) return `Ruta ${r.codigo}: falta el nombre`;
   const km = aNumero(r.km);
   if (!Number.isFinite(km) || km <= 0) return `Ruta ${r.codigo}: los km deben ser mayores que 0`;

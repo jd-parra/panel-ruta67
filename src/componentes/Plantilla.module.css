@@ -18,25 +18,24 @@
 
 .marca {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 6px;
-}
-
-.marca strong {
-  display: block;
-  color: var(--primario-oscuro);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 2px 8px 0;
 }
 
 .marca span {
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--texto-suave);
+  padding-left: 2px;
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  height: 38px;
+  width: auto;
 }
 
 .enlaces {

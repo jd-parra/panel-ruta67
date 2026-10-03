@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useEditorLinea } from '../../hooks/useEditorLinea';
+import { Selector } from '../../componentes/Selector';
 import type { Linea } from '../../nucleo/tipos';
 import { formatearBs } from '../../utils/formato';
 import estilos from './EditorLinea.module.css';
@@ -27,10 +28,19 @@ export function EditorLinea({ linea, alGuardar }: { linea: Linea; alGuardar: (l:
         </label>
         <label className={estilos.campo}>
           Tipo
-          <select value={e.tipo} onChange={(ev) => e.setTipo(ev.target.value as Linea['tipo'])}>
-            <option value="urbana">Urbana</option>
-            <option value="suburbana">Suburbana</option>
-          </select>
+          <Selector<Linea['tipo']>
+            etiqueta="Tipo"
+            opciones={[
+              { valor: 'urbana', texto: 'Urbana', detalle: 'Pasaje urbano en todas las rutas' },
+              {
+                valor: 'suburbana',
+                texto: 'Suburbana',
+                detalle: 'Cobra según los km de cada ruta',
+              },
+            ]}
+            valor={e.tipo}
+            alCambiar={e.setTipo}
+          />
         </label>
         <span className="suave">Código {linea.codigo}</span>
       </div>

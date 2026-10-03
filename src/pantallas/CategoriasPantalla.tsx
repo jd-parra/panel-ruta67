@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { EstadoCarga } from '../componentes/Estados';
+import { EstadoCarga, EstadoVacio } from '../componentes/Estados';
 import { Encabezado } from '../componentes/Encabezado';
 import { useCarga } from '../hooks/useCarga';
 import { listarCategoriasPendientes, resolverCategoria } from '../nucleo/api/central';
@@ -40,7 +40,25 @@ export function CategoriasPantalla() {
         cargando={cargando}
         error={error}
         vacio={!datos?.length}
-        mensajeVacio="No hay categorías por verificar."
+        contenidoVacio={
+          <EstadoVacio icono="carnet" titulo="No hay nadie esperando revisión">
+            <p>
+              Aquí aparecen las personas que se registraron en la app como{' '}
+              <strong>estudiantes</strong> o como{' '}
+              <strong>adultos mayores o personas con discapacidad</strong>. Mientras nadie las
+              revise, pagan el pasaje completo.
+            </p>
+            <ol>
+              <li>Una persona se registra en la app y elige su categoría.</li>
+              <li>Aparece en esta lista. Pídele que te muestre su carnet.</li>
+              <li>
+                Si el carnet es válido, toca <strong>Aprobar</strong> y empezará a pagar con
+                descuento. Si no, toca <strong>Rechazar</strong> y seguirá pagando el pasaje
+                completo.
+              </li>
+            </ol>
+          </EstadoVacio>
+        }
         onReintentar={() => void recargar()}
       >
         <section className="tarjeta sin-relleno">

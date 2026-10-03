@@ -10,11 +10,8 @@ export function Plantilla() {
     <div className={estilos.raiz}>
       <aside className={estilos.menu}>
         <div className={estilos.marca}>
-          <img src="/logo.png" alt="" className={estilos.logo} />
-          <div>
-            <strong>Ruta67</strong>
-            <span>Central</span>
-          </div>
+          <img src="/ruta67-horizontal-animado.svg" alt="Ruta67" className={estilos.logo} />
+          <span>Central</span>
         </div>
         <nav className={estilos.enlaces}>
           {SECCIONES.map((s) => (

@@ -77,6 +77,18 @@ export interface Unidad {
   recolector: { id: string; nombre: string; telefono: string } | null;
 }
 
+/** GET /central/recolectores: cada recolector con la unidad que tiene asignada (o null si está libre). */
+export interface Recolector extends Usuario {
+  unidadCodigo: number | null;
+}
+
+/** Datos de un recolector nuevo: la central le crea la cuenta al asignarlo a una unidad (§19). */
+export interface RecolectorNuevo {
+  nombre: string;
+  telefono: string;
+  clave: string;
+}
+
 export interface Conflicto {
   id: string;
   bid: string;
